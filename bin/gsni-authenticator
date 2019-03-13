@@ -1,0 +1,43 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+"""
+    AGNClient Desktop Notifications - launcher module
+    @copyright: (c) Copyright BMI Corp. 2013 All Rights Reserved
+    @author:    João Pinto <joao.pinto@pt.BMI.com>
+"""
+import sys
+from optparse import OptionParser
+from os.path import abspath, realpath, dirname, join, exists
+
+PROG_PACKAGE = "gsni_authenticator"
+LAUNCH_DIR = abspath(sys.path[0])
+SOURCE_DIR = join(LAUNCH_DIR, "..", "gsni_authenticator")
+
+# If we were invoked from a source directory add that as the
+# preferred module path ...
+if exists(join(SOURCE_DIR, "__init__.py")):
+    sys.path.insert(0, realpath(dirname(SOURCE_DIR)))
+    try:
+      from gsni_authenticator.client import AuthClient
+    finally:
+        del sys.path[0]
+else:
+	from gsni_authenticator.client import AuthClient
+
+parser = OptionParser()
+parser.add_option("-c", "--config-dir", dest="config_dir",
+                  help="use the specified config dir")
+parser.add_option("-3", "--three-steps-auth", action="store_true", dest="three_steps_auth",
+                  help="set authentication steps", default=False)
+parser.add_option("-d", "--debug",
+                  action="store_true", dest="debug", default=False,
+                  help="Enable HTTPS debugging")
+parser.add_option("-e", "--es", action="store_true", dest="is_spain",
+                  help="set icon with the spanish flag", default=False)
+parser.add_option("-f", "--flag", dest="set_icon_flag",
+                  help="set icon flag")
+
+(options, args) = parser.parse_args()
+
+gsni_auth = AuthClient(options)
+gsni_auth.run()

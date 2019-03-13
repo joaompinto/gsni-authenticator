@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=GSNI Authenticator
+GenericName=Authenticate to a GSNI server
+Comment=Authenticate to a GSNI server
+Exec=gsni-authenticator
+Categories=Network;
+Terminal=false
+Type=Application
+Icon=/usr/share/gsni-authenticator/ui/gsni_auth_regular.png
+X-GNOME-Autostart-enabled=true
+StartupNotify=false
